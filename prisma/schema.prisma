@@ -1,0 +1,15 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"  
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Deal {
+  id          String   @id @default(cuid()) //función de Prisma que genera un identificador único basado en una "cadena aleatoria compacta".
+  salesperson String
+  amount      Float
+  date        String
+}
