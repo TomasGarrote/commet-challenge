@@ -11,9 +11,8 @@ export async function fetchDeals() {
         return data;
 
     } catch(error){
-        // Aquí puedes manejar el error de diferentes maneras
         console.error('Error fetching deals:', error);
-        // Mostrar un mensaje de error en la UI, por ejemplo
+        // Mostrar un mensaje de error en la UI
     }
     
      
