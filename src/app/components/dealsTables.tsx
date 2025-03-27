@@ -25,7 +25,9 @@ const DealsTable = () => {
     // Transformar los datos
     const transformedDealsA = transformDealsA(crmAData);
     const transformedDealsB = transformDealsB(crmBData);
-    const transformedDealsAPI = transformDealsAPI(fetchedDeals);
+    const transformedDealsAPI = fetchedDeals && fetchedDeals.length > 0
+    ? transformDealsAPI(fetchedDeals)
+    : []; 
     
     //los insertamos en el array
     const transformedDeals = [];
@@ -41,11 +43,11 @@ const DealsTable = () => {
 
     //version mejorada
 
-    /*const standardDeals = [
-        ...transformDealsA(crmAData),
-        ...transformDealsB(crmBData),
-        ...transformDealsAPI(fetchedDeals)
-      ];*/
+    // const standardDeals = [
+    //     ...transformDealsA(crmAData),
+    //     ...transformDealsB(crmBData),
+    //     ...(fetchedDeals?.length ? transformDealsAPI(fetchedDeals) : []),
+    //   ];
       
     //actualizamos el estado de la variable deals
     //Version mejorada 
