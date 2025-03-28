@@ -41,6 +41,7 @@ export const transformDealsB = (deals: RawDealB[]): StandardDeal[] => {
       date: deal.deal_date ? new Date(deal.deal_date).toISOString() : "", // Toma la fecha y la convierte en un ISOString
     }));
 };
+
 export const transformDealsAPI = (deals: StandardDeal[]): StandardDeal[] => { 
         return deals.map(deal => ({
         id: deal.id,
