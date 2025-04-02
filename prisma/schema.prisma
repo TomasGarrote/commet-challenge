@@ -8,7 +8,7 @@ generator client {
 }
 
 model Deal {
-  id          String   @id @default(cuid()) //función de Prisma que genera un identificador único basado en una "cadena aleatoria compacta".
+  id          String   @id 
   salesperson String
   amount      Float
   date        String

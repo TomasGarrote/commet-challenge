@@ -33,12 +33,12 @@ export const transformDealsA = (deals: RawDealA[]): StandardDeal[] => {
     }));
 };
 
-export const transformDealsB = (deals: RawDealB[]): StandardDeal[] => {
+export const transformDealsB = (deals: any[]): StandardDeal[] => {
     return deals.map(deal => ({
       id: deal.opportunity_id,
       salesperson: deal.seller,
-      amount: deal.amount,
-      date: deal.deal_date ? new Date(deal.deal_date).toISOString() : "", // Toma la fecha y la convierte en un ISOString
+      amount: Number(deal.amount),
+      date: deal.deal_date ? new Date(deal.deal_date).toISOString() : "",
     }));
 };
 

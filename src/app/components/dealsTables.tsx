@@ -1,27 +1,16 @@
 
 import { fetchDeals } from '../lib/data';
 import { transformDealsA, transformDealsB, transformDealsAPI } from '../utils/transformData';
+import styles from '../styles.module.css'
+import Papa from "papaparse";
+
 
 export default async function Page() {
-  const deals = await fetchDeals();
-  
-  // Simulamos la obtención de los datos de CRM A y CRM B
-  const crmAData = [
-    { deal_id: "A1", total: 5000, rep_name: "Ana Pérez", sold_at: "2024-03-01" },
-    { deal_id: "A2", amount: 4500, rep_name: "Juan Gómez", created_on: "2024-03-02" }
-  ];
-
-  const crmBData = [
-    { opportunity_id: "B1", amount: 3000, seller: "Carlos García", deal_date: "2024/03/03" },
-    { opportunity_id: "B2", amount: 4500, seller: "Maria García", deal_date: "2024/03/04" }
-  ];
-
-
-
+  const res = await fetch("http://localhost:3000/api/upload", { cache: "no-store" });
+  const jsonData = await res.json();
+ 
   const transformedDeals = [
-        ...transformDealsA(crmAData),
-        ...transformDealsB(crmBData),
-        ...(deals?.length ? transformDealsAPI(deals) : []),
+        ...(jsonData?.length ? transformDealsAPI(jsonData) : []),
       ];
 
 
@@ -29,31 +18,39 @@ export default async function Page() {
   const totalCommission = transformedDeals.reduce((acc, deal) => acc + deal.amount * 0.1, 0);
 
   return (
-    <div className="bg-black">
-      <table className="bg-black">
+    <div className="container">
+      <table>
         <thead>
-          <tr className="bg-black">
-            <th className="border p-2">ID</th>
-            <th className="border p-2">Vendedor</th>
-            <th className="border p-2">Monto</th>
-            <th className="border p-2">Fecha</th>
-            <th className="border p-2">Comisión (10%)</th>
+          <tr>
+            <th>ID</th>
+            <th>Vendedor</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Comisión</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody >
           {transformedDeals.map(deal => (
-            <tr key={deal.id} className="border">
-              <td className="border p-2">{deal.id}</td>
-              <td className="border p-2">{deal.salesperson}</td>
-              <td className="border p-2">${deal.amount}</td>
-              <td className="border p-2">{new Date(deal.date).toLocaleDateString()}</td>
-              <td className="border p-2">${(deal.amount * 0.1).toFixed(2)}</td>
+            <tr key={deal.id} >
+              <td>{deal.id}</td>
+              <td>{deal.salesperson}</td>
+              <td>{deal.amount}</td>
+              <td>{new Date(deal.date).toLocaleDateString()}</td>
+              <td>${(deal.amount * 0.1).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="mt-4 font-bold">Total Comisión: ${totalCommission.toFixed(2)}</div>
+      <div className='comisions'>Total Comisión: ${totalCommission.toFixed(2)}
+      <br></br>
+      <label >Selecciona un archivo Json o Csv:</label>
+        <form action="/api/upload" method="POST" encType="multipart/form-data">
+          <input type="file" name="file" accept=".json, .csv" required />
+          <button type="submit">Subir Archivo</button>
+        </form>
+      </div>
     </div>
+    
   );
 };
 
